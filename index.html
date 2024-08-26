@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .calculator {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 320px;
+        }
+
+        .display {
+            background-color: #222;
+            padding: 20px;
+            color: #fff;
+            font-size: 2em;
+            text-align: right;
+        }
+
+        #calc-display {
+            width: 100%;
+            border: none;
+            background: none;
+            color: white;
+            font-size: 1.5em;
+            text-align: right;
+            outline: none;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background-color: #ddd;
+        }
+
+        button {
+            background-color: #f4f4f4;
+            border: none;
+            padding: 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        .equals {
+            grid-column: span 2;
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .equals:hover {
+            background-color: #45a049;
+        }
+
+        .zero {
+            grid-column: span 2;
+        }
+
+        button:active {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display">
+            <input type="text" id="calc-display" disabled>
+        </div>
+        <div class="buttons">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="deleteLast()">&larr;</button>
+            <button onclick="appendOperator('/')">/</button>
+            <button onclick="appendOperator('*')">*</button>
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button onclick="appendOperator('-')">-</button>
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button onclick="appendOperator('+')">+</button>
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button onclick="calculateResult()" class="equals">=</button>
+            <button onclick="appendNumber('0')" class="zero">0</button>
+            <button onclick="appendDecimal('.')">.</button>
+        </div>
+    </div>
+    <script>
+        function appendNumber(number) {
+            const display = document.getElementById("calc-display");
+            if (display.value === '0') {
+                display.value = number;
+            } else {
+                display.value += number;
+            }
+        }
+
+        function appendOperator(operator) {
+            const display = document.getElementById("calc-display");
+            const lastChar = display.value.slice(-1);
+            if (['+', '-', '*', '/'].includes(lastChar)) {
+                display.value = display.value.slice(0, -1) + operator;
+            } else {
+                display.value += operator;
+            }
+        }
+
+        function appendDecimal(decimal) {
+            const display = document.getElementById("calc-display");
+            if (!display.value.includes(".")) {
+                display.value += decimal;
+            }
+        }
+
+        function clearDisplay() {
+            document.getElementById("calc-display").value = '';
+        }
+
+        function deleteLast() {
+            const display = document.getElementById("calc-display");
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculateResult() {
+            const display = document.getElementById("calc-display");
+            try {
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
